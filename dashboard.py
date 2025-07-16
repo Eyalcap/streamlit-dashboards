@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import requests
 import tweepy
 import config 
 import psycopg2, psycopg2.extras
 import plotly.graph_objects as go
+from security import safe_requests
 
 auth = tweepy.OAuthHandler(config.TWITTER_CONSUMER_KEY, config.TWITTER_CONSUMER_SECRET)
 auth.set_access_token(config.TWITTER_ACCESS_TOKEN, config.TWITTER_ACCESS_TOKEN_SECRET)
@@ -149,7 +149,7 @@ if option == 'pattern':
 if option == 'stocktwits':
     symbol = st.sidebar.text_input("Symbol", value='AAPL', max_chars=5)
 
-    r = requests.get(f"https://api.stocktwits.com/api/2/streams/symbol/{symbol}.json")
+    r = safe_requests.get(f"https://api.stocktwits.com/api/2/streams/symbol/{symbol}.json")
 
     data = r.json()
 
